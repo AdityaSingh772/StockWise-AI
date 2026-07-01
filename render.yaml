@@ -1,0 +1,24 @@
+# Render deployment configuration
+# https://render.com/docs/render-yaml-spec
+
+services:
+  - type: web
+    name: stockwise-ai
+    runtime: python
+    region: oregon
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: TELEGRAM_BOT_TOKEN
+        sync: false   # Set manually in Render dashboard
+      - key: GROQ_API_KEY
+        sync: false   # Set manually in Render dashboard
+      - key: ENV
+        value: production
+      - key: PORT
+        value: "8000"
+      - key: WEBHOOK_URL
+        sync: false   # Set to your Render app URL, e.g. https://stockwise-ai.onrender.com
+    healthCheckPath: /api/v1/health
+    autoDeploy: true

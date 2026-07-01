@@ -1,0 +1,1 @@
+# StockWise AI - App Package
